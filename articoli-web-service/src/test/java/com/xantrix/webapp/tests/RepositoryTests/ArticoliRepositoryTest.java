@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.xantrix.webapp.Application;
+import com.betashop.webapp.Application;
 
 
 @SpringBootTest()
