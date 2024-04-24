@@ -1,4 +1,4 @@
-package com.xantrix.webapp.tests.ControllerTests;
+package com.betashop.webapp.tests.ControllerTests;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
