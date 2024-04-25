@@ -5,7 +5,11 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -14,6 +18,11 @@ import lombok.Data;
 @Data
 public class Ingredienti implements Serializable{
 
+	@OneToOne
+	@PrimaryKeyJoinColumn
+	@JsonIgnore
+	private Articoli articoli;
+	
 	@Id
 	@Column(name = "CODART")
 	private String codArt;
