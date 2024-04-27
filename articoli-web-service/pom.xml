@@ -5,10 +5,10 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.3</version>
-		<relativePath/> 
+		<version>3.1.10</version>
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.xantrix.webapp</groupId>
+	<groupId>com.betashop.webapp</groupId>
 	<artifactId>articoli-web-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>articoli-web-service</name>

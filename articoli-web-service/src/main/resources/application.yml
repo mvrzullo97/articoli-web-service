@@ -1,29 +1,30 @@
 #==========================================================
-#= Articoli Web Service 
+#= Articoli Web Service - Versione Base
 #==========================================================
 
 server:
   port: 5051
-  
+
 spring:
   application:
-    name: ArticoliWebService
-#==========================================================
-#=  DBMS POSTGRESQL params
-#==========================================================
-  sql:
-    init:
-      mode: always
-      platform: postgres
+    name: ProductsWebService
+
   datasource:
     password: Alele1411
-    url: jdbc:postgresql://localhost:5433/Betashop
+    url: jdbc:postgresql://localhost:5433/betashop
     username: postgres
   jpa:
     hibernate:
       ddl-auto: none
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: true
 
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          jdbc:
+            lob:
+              non_contextual_creation: true
+      show-sql: true
+  sql:
+    init:
+      platform: postgres
+      mode: always
