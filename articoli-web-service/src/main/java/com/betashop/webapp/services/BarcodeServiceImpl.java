@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.betashop.webapp.entities.Articoli;
 import com.betashop.webapp.entities.Barcode;
 import com.betashop.webapp.repository.BarcodeRepository;
 
@@ -15,8 +16,18 @@ public class BarcodeServiceImpl implements BarcodeService {
 	private BarcodeRepository barcodeRepository;
 	
 	@Override
-	public Barcode SelByBarcode(String barcode) {
-		return barcodeRepository.findByBarcode(barcode);
+	public Barcode SelByBarcode(String sBarcode) {
+		
+		Barcode b = barcodeRepository.findByBarcode(sBarcode);
+		
+		if (b != null) {
+		
+			Articoli a = b.getArticolo();
+			a.setUm(a.getUm().trim());
+			b.setArticolo(a);
+		
+		}
+		return b;
 	}
 
 	
