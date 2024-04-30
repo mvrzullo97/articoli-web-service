@@ -23,30 +23,30 @@ public class ArticoliRepositoryTest
 	private ArticoliRepository articoliRepository;
 
 	@Test
-	public void TestfindByDescrizioneLike()
-	{
+	public void TestfindByDescrizioneLike() {
 		List<Articoli> items = articoliRepository.SelByDescrizioneLike("ACQUA ULIVETO%");
 		assertEquals(2, items.size());
 	}
 	
 	@Test
-	public void TestfindByDescrizioneLikePage()
-	{
+	public void TestfindByDescrizioneLikePage() {
 		List<Articoli> items = articoliRepository.findByDescrizioneLike("ACQUA%", PageRequest.of(0, 10));
 		assertEquals(10, items.size());
 	}
 
 	
 	@Test
-	public void TestfindByCodArt() throws Exception
-	{
+	public void TestfindByCodArt() throws Exception {
 		assertThat(articoliRepository.findByCodArt("002000301"))
 				.extracting(Articoli::getDescrizione)
-				.isEqualTo("ACQUA ULIVETO 15 LT");
-		
-		
-				
+				.isEqualTo("ACQUA ULIVETO 15 LT");	
 	}
 	
+	@Test
+	public void TestfindByEan() throws Exception {
+		assertThat(articoliRepository.SelByEan("8008490000021"))
+		.extracting(Articoli::getDescrizione)
+		.isEqualTo("ACQUA ULIVETO 15 LT");
+	}
 
 }

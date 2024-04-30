@@ -34,9 +34,11 @@ public class ArticoliServiceImpl implements ArticoliService {
 		
 		List<Articoli> articoli = articoliRepository.SelByDescrizioneLike(descr);
 		
+		/*
 		articoli.forEach(e -> e.setIdStatoArt(e.getIdStatoArt().trim()));
 		articoli.forEach(e -> e.setUm(e.getUm().trim()));
-		
+		articoli.forEach(e -> e.setDescrizione(e.getDescrizione().trim()));
+		*/
 		List<ArticoliDto> retVal = articoli
 				.stream()
 				.map(s -> modelMapper.map(s, ArticoliDto.class))
@@ -54,12 +56,27 @@ public class ArticoliServiceImpl implements ArticoliService {
 	public ArticoliDto SelByCodArt(String codArt) {
 		
 		Articoli a = articoliRepository.findByCodArt(codArt);
+		
+		return this.convertToDto(a);
+	}
+	
+	@Override
+	public ArticoliDto SelByBarcode(String barcode) {
+		
+		Articoli articoli = articoliRepository.SelByEan(barcode);
+		
+		return this.convertToDto(articoli);
+	}
+
+	@SuppressWarnings("unused")
+	private ArticoliDto convertToDto(Articoli articoli) {
+		
 		ArticoliDto aDto = null;
 		
-		if (a != null) {
-			aDto = modelMapper.map(a, ArticoliDto.class);
-		}
-				
+		if (articoli != null) {
+			aDto = modelMapper.map(articoli, ArticoliDto.class);
+		}	
+		
 		return aDto;
 	}
 
@@ -75,6 +92,7 @@ public class ArticoliServiceImpl implements ArticoliService {
 		articoliRepository.save(a);
 	}
 
+	
 	
 	
 }

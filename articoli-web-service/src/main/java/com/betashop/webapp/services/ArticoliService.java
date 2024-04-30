@@ -21,4 +21,6 @@ public interface ArticoliService {
 	
 	public void InsArticolo(Articoli articolo);
 	
+	public ArticoliDto SelByBarcode(String barcode);
+	
 }
