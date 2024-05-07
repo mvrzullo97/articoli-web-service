@@ -2,14 +2,14 @@ package com.betashop.webapp.exceptions;
 
 public class NotFoundException extends Exception {
 
-	private String mex = "Elemento ricercato NOT FOUND";
+	private String mex = "";
 	
 	public NotFoundException() {
 		super();
 	}
 
 	public NotFoundException(String mex) {
-		super();
+		super(mex);
 		this.mex = mex;
 	}
 

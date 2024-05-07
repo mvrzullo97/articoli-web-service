@@ -27,18 +27,18 @@ public class ArticoliController {
 	@Autowired
 	private ArticoliService articoliService;
 	
-	@GetMapping(value = "/cerca/ean/{barcode}", produces = "application/json")
-	public ResponseEntity<ArticoliDto> listArtByEan(@PathVariable("barcode") String barcode) 
+	@GetMapping(value = "/cerca/barcode/{ean}", produces = "application/json")
+	public ResponseEntity<ArticoliDto> listArtByEan(@PathVariable("ean") String ean) 
 			throws NotFoundException {
 		
-		logger.info("------ otteniamo l'articolo con barcode -> " + barcode + " ------");
+		logger.info("------ otteniamo l'articolo con barcode -> " + ean + " ------");
 		
 		
-		ArticoliDto a = articoliService.SelByBarcode(barcode);
+		ArticoliDto a = articoliService.SelByBarcode(ean);
 		
 		if (a == null) {
 			
-			String errMsg = String.format("Il barcode %s non è stato trovato!", barcode);
+			String errMsg = String.format("Il barcode %s non è stato trovato!", ean);
 			logger.warn(errMsg);
 			
 			throw new NotFoundException(errMsg);
@@ -73,7 +73,7 @@ public class ArticoliController {
 
 		List<ArticoliDto> articoli = articoliService.SelByDescrizione(filter.toUpperCase() + "%");
 		
-		if (articoli == null) {
+		if (articoli.isEmpty()) {
 			
 			String errMsg = String.format("Non è stato trovato alcun articolo avente la descrizione %s!", filter);
 			logger.warn(errMsg);

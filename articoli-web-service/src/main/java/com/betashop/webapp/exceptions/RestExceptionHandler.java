@@ -19,7 +19,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		
 		err.setCodice(HttpStatus.NOT_FOUND.value());
 		err.setMex(ex.getMessage());
-		
+		System.out.println(ex.getMessage());
+		System.out.println(HttpStatus.NOT_FOUND.value());
+
 		return new ResponseEntity<ErrorResponse>(err, new HttpHeaders(), HttpStatus.NOT_FOUND);
 		
 	}
