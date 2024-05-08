@@ -53,7 +53,7 @@ public class Articoli implements Serializable {
 	private String codArt;
 	
 	@Column(name = "DESCRIZIONE")
-	@Size(min = 6, max = 80, message = "{Size.Articoli.codArt.Validation}")
+	@Size(min = 6, max = 80, message = "{Size.Articoli.descrizione.Validation}")
 	private String descrizione;
 	
 	@Column(name = "UM")

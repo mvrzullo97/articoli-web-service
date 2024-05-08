@@ -15,14 +15,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 	@ExceptionHandler(NotFoundException.class)
 	public final ResponseEntity<ErrorResponse> exceptionNotFoundHandler(Exception ex){
 		
-		ErrorResponse err = new ErrorResponse();
+		ErrorResponse errore = new ErrorResponse();
 		
-		err.setCodice(HttpStatus.NOT_FOUND.value());
-		err.setMex(ex.getMessage());
+		errore.setCodice(HttpStatus.NOT_FOUND.value());
+		errore.setMex(ex.getMessage());
 		System.out.println(ex.getMessage());
 		System.out.println(HttpStatus.NOT_FOUND.value());
 
-		return new ResponseEntity<ErrorResponse>(err, new HttpHeaders(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ErrorResponse>(errore, new HttpHeaders(), HttpStatus.NOT_FOUND);
 		
 	}
 	
@@ -35,6 +35,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		errore.setMex(ex.getMessage());
 		
 		return new ResponseEntity<ErrorResponse>(errore, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		
+	}
+	
+	@ExceptionHandler(DuplicateException.class)
+	public ResponseEntity<ErrorResponse> exceptionDuplicateRecordHandler(Exception ex){
+		
+		ErrorResponse errore = new ErrorResponse();
+		
+		errore.setCodice(HttpStatus.NOT_ACCEPTABLE.value());
+		errore.setMex(ex.getMessage());
+		
+		return new ResponseEntity<ErrorResponse>(errore, HttpStatus.NOT_ACCEPTABLE);
 		
 	}
 	

@@ -49,7 +49,7 @@ public class InsertArtTest {
 	
 	private String JsonData =  
 			"{\r\n"
-			+ "    \"codArt\": \"123Test\",\r\n"
+			+ "    \"codArt\": \"129Test\",\r\n"
 			+ "    \"descrizione\": \"Articolo Unit Test Inserimento\",\r\n"
 			+ "    \"um\": \"PZ\",\r\n"
 			+ "    \"codStat\": \"TESTART\",\r\n"
@@ -64,7 +64,7 @@ public class InsertArtTest {
 			+ "        }\r\n"
 			+ "    ],\r\n"
 			+ "    \"ingredienti\": {\r\n"
-			+ "		\"codArt\" : \"123Test\",\r\n"
+			+ "		\"codArt\" : \"129Test\",\r\n"
 			+ "		\"info\" : \"TEST INGREDIENTI\"\r\n"
 			+ "	},\r\n"
 			+ "    \"iva\": {\r\n"
@@ -86,7 +86,7 @@ public class InsertArtTest {
 				.andExpect(status().isCreated())
 				.andDo(print());
 		
-		assertThat(articoliRepository.findByCodArt("123Test"))
+		assertThat(articoliRepository.findByCodArt("129Test"))
 			.extracting(Articoli::getDescrizione)
 			.isEqualTo("Articolo Unit Test Inserimento");
 	}
@@ -100,14 +100,14 @@ public class InsertArtTest {
 				.content(JsonData)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotAcceptable())
-				.andExpect(jsonPath("$.code").value(406))
-				.andExpect(jsonPath("$.message").value("Articolo 123Test presente in anagrafica! Impossibile utilizzare il metodo POST"))
+				.andExpect(jsonPath("$.codice").value(406))
+				.andExpect(jsonPath("$.mex").value("Articolo 129Test presente in anagrafica! Impossibile utilizzare il metodo POST"))
 				.andDo(print());
 	}
 	
 	String ErrJsonData =  
 					"{\r\n"
-					+ "    \"codArt\": \"123Test\",\r\n"
+					+ "    \"codArt\": \"129Test\",\r\n"
 					+ "    \"descrizione\": \"\",\r\n" //<-- Descrizione Assente
 					+ "    \"um\": \"PZ\",\r\n"
 					+ "    \"codStat\": \"TESTART\",\r\n"
@@ -122,7 +122,7 @@ public class InsertArtTest {
 					+ "        }\r\n"
 					+ "    ],\r\n"
 					+ "    \"ingredienti\": {\r\n"
-					+ "		\"codArt\" : \"123Test\",\r\n"
+					+ "		\"codArt\" : \"129Test\",\r\n"
 					+ "		\"info\" : \"TEST INGREDIENTI\"\r\n"
 					+ "	},\r\n"
 					+ "    \"iva\": {\r\n"
@@ -142,14 +142,14 @@ public class InsertArtTest {
 				.content(ErrJsonData)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("$.code").value(400))
-				.andExpect(jsonPath("$.message").value("Il campo Descrizione deve avere un numero di caratteri compreso tra 6 e 80"))
+				.andExpect(jsonPath("$.codice").value(400))
+				.andExpect(jsonPath("$.mex").value("Il campo Descrizione deve avere un numero di caratteri compreso tra 6 e 80"))
 				.andDo(print());
 	}
 	
 	private String JsonDataMod =  
 			"{\r\n"
-			+ "    \"codArt\": \"123Test\",\r\n"
+			+ "    \"codArt\": \"129Test\",\r\n"
 			+ "    \"descrizione\": \"Articolo Unit Test Modifica\",\r\n"
 			+ "    \"um\": \"PZ\",\r\n"
 			+ "    \"codStat\": \"TESTART\",\r\n"
@@ -164,7 +164,7 @@ public class InsertArtTest {
 			+ "        }\r\n"
 			+ "    ],\r\n"
 			+ "    \"ingredienti\": {\r\n"
-			+ "		\"codArt\" : \"123Test\",\r\n"
+			+ "		\"codArt\" : \"129Test\",\r\n"
 			+ "		\"info\" : \"TEST INGREDIENTI\"\r\n"
 			+ "	},\r\n"
 			+ "    \"iva\": {\r\n"
@@ -186,7 +186,7 @@ public class InsertArtTest {
 				.andExpect(status().isCreated())
 				.andDo(print());
 		
-		assertThat(articoliRepository.findByCodArt("123Test"))
+		assertThat(articoliRepository.findByCodArt("129Test"))
 			.extracting(Articoli::getDescrizione)
 			.isEqualTo("Articolo Unit Test Modifica");
 	}
@@ -195,14 +195,12 @@ public class InsertArtTest {
 	@Order(5)
 	public void testDelArticolo() throws Exception
 	{
-		mockMvc.perform(MockMvcRequestBuilders.delete("/api/articoli/elimina/123Test")
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/articoli/elimina/129Test")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.code").value("200 OK"))
-				.andExpect(jsonPath("$.message").value("Eliminazione Articolo 123Test Eseguita Con Successo"))
+				.andExpect(jsonPath("$.codice").value("200 OK"))
+				.andExpect(jsonPath("$.mex").value("Eliminazione Articolo 129Test eseguita con successo"))
 				.andDo(print());
 	}
-	
-	
-	
+
 }

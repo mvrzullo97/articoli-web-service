@@ -23,4 +23,7 @@ public interface ArticoliService {
 	
 	public ArticoliDto SelByBarcode(String barcode);
 	
+	public Articoli SelByCodArt2(String codArt);
+
+	
 }

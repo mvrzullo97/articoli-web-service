@@ -2,7 +2,6 @@ package com.betashop.webapp;
 
 import java.util.Locale;
 
-import org.apache.tomcat.util.descriptor.LocalResolver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @Configuration
 public class MessageConfig {
 
-	@Bean(name = "validator")
+	@Bean
 	public MessageSource messageSource() {
 		
 		ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
@@ -24,7 +23,7 @@ public class MessageConfig {
 		return resource;
 	}
 	
-	@Bean
+	@Bean(name = "validator")
 	public LocalValidatorFactoryBean validator() {
 		
 		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
@@ -33,6 +32,7 @@ public class MessageConfig {
 		return bean;
 	}
 	
+	@Bean
 	public LocaleResolver localeResolver() {
 		
 		SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();

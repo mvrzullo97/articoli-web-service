@@ -68,7 +68,6 @@ public class ArticoliServiceImpl implements ArticoliService {
 		return this.convertToDto(articoli);
 	}
 
-	@SuppressWarnings("unused")
 	private ArticoliDto convertToDto(Articoli articoli) {
 		
 		ArticoliDto aDto = null;
@@ -90,6 +89,12 @@ public class ArticoliServiceImpl implements ArticoliService {
 	@Transactional
 	public void InsArticolo(Articoli a) {
 		articoliRepository.save(a);
+	}
+
+	@Override
+	public Articoli SelByCodArt2(String codArt) {
+		 
+		return articoliRepository.findByCodArt(codArt);
 	}
 
 	

@@ -7,7 +7,7 @@ public class BindingException extends Exception {
 	private String mex;
 
 	public BindingException(String mex) {
-		super();
+		super(mex);
 		this.mex = mex;
 	}
 	
