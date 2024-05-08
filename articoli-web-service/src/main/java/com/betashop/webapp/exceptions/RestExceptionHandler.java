@@ -26,4 +26,17 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler{
 		
 	}
 	
+	@ExceptionHandler(BindingException.class)
+	public ResponseEntity<ErrorResponse> exceptionBindingHandler(Exception ex){
+		
+		ErrorResponse errore = new ErrorResponse();
+		
+		errore.setCodice(HttpStatus.BAD_REQUEST.value());
+		errore.setMex(ex.getMessage());
+		
+		return new ResponseEntity<ErrorResponse>(errore, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		
+	}
+	
+	
 }

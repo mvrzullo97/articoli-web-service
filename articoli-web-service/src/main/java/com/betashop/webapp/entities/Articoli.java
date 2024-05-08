@@ -3,6 +3,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.hibernate.annotations.BatchSize;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +18,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -41,9 +48,12 @@ public class Articoli implements Serializable {
 	
 	@Id
 	@Column(name = "CODART")
+	@Size(min = 5, max = 20, message = "{Size.Articoli.codArt.Validation}")
+	@NotNull(message = "{NotNull.Articoli.codArt.Validation}")
 	private String codArt;
 	
 	@Column(name = "DESCRIZIONE")
+	@Size(min = 6, max = 80, message = "{Size.Articoli.codArt.Validation}")
 	private String descrizione;
 	
 	@Column(name = "UM")
@@ -53,12 +63,15 @@ public class Articoli implements Serializable {
 	private String codStat;
 	
 	@Column(name = "PZCART")
+	@Max(value = 99, message = "{Max.Articoli.codArt.Validation}")
 	private Integer pzCart;
 	
 	@Column(name = "PESONETTO")
+	@Min(value = (long) 0.01, message = "{Min.Articoli.codArt.Validation}")
 	private Double pesoNetto;
 	
 	@Column(name = "IDSTATOART")
+	@NotNull(message = "{NotNull.Articoli.codArt.Validation}")
 	private String idStatoArt;
 	
 	@Column(name = "DATACREAZIONE")
