@@ -1,5 +1,7 @@
 package com.betashop.webapp.controllers;
 
+import java.lang.ProcessHandle.Info;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.management.ObjectName;
@@ -14,17 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.betashop.webapp.dtos.ArticoliDto;
+import com.betashop.webapp.dtos.InfoMsg;
 import com.betashop.webapp.entities.Articoli;
 import com.betashop.webapp.exceptions.BindingException;
 import com.betashop.webapp.exceptions.DuplicateException;
@@ -105,7 +99,7 @@ public class ArticoliController {
 	}
 	
 	@PostMapping(value = "/inserisci")
-	public ResponseEntity<Articoli> createArt(@Valid @RequestBody Articoli articolo, BindingResult bindingResult)
+	public ResponseEntity<InfoMsg> createArt(@Valid @RequestBody Articoli articolo, BindingResult bindingResult)
 	throws BindingException, DuplicateException {
 		
 		logger.info("Inserisco l'articolo con codice -> " + articolo.getCodArt());
@@ -131,11 +125,11 @@ public class ArticoliController {
 		
 		articoliService.InsArticolo(articolo);
 		
-		return new ResponseEntity<Articoli>(new HttpHeaders(), HttpStatus.CREATED);
+		return new ResponseEntity<InfoMsg>(new InfoMsg(LocalDate.now(), "Articolo persistito con successo!"), HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(value = "/modifica", method = RequestMethod.PUT)
-	public ResponseEntity<Articoli> updateArt(@Valid @RequestBody Articoli articolo, BindingResult bindingResult)
+	@PutMapping("/modifica")
+	public ResponseEntity<InfoMsg> updateArt(@Valid @RequestBody Articoli articolo, BindingResult bindingResult)
 	throws BindingException, NotFoundException {
 		
 		logger.info("Modifichiamo l'articolo con codice " + articolo.getCodArt());
@@ -161,11 +155,11 @@ public class ArticoliController {
 		
 		articoliService.InsArticolo(articolo);
 		
-		return new ResponseEntity<Articoli>(new HttpHeaders(), HttpStatus.CREATED);
+		return new ResponseEntity<InfoMsg>(new InfoMsg(LocalDate.now(), "Articolo modificato con successo!"), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/elimina/{codart}", produces = "application/json" )
-	public ResponseEntity<?> updateArt(@PathVariable("codArt") String codArt)
+	public ResponseEntity<?> updateArt(@PathVariable("codart") String codArt)
 	throws NotFoundException {
 		
 		logger.info("Eliminiamo l'articolo con codice " + codArt);
@@ -174,19 +168,21 @@ public class ArticoliController {
 		
 		if (delArticolo == null)
 		{
-			String errMex = String.format("Articolo %s non presente in anagrafica! ",codArt);
+			String errMex = String.format("Articolo %s non presente in anagrafica! ", codArt);
 			logger.warn(errMex);
 			
 			throw new NotFoundException(errMex);
-		}
-		
+		} 
+
 		articoliService.DelArticolo(delArticolo);
 		ObjectMapper mapper = new ObjectMapper();
 		ObjectNode responseNode = mapper.createObjectNode();
 		
 		responseNode.put("codice", HttpStatus.OK.toString());
-//		System.out.println(HttpStatus.OK.toString());
+		System.out.println(HttpStatus.OK.toString());
 		responseNode.put("mex", "Eliminazione Articolo " + codArt + " eseguita con successo");
+		
+		logger.info("Eliminazione articolo con codice " + codArt + " avvenuta con successo!");
 		
 		return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK );
 	}

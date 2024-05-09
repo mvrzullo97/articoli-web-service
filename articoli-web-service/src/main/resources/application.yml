@@ -2,6 +2,9 @@
 #= Articoli Web Service - Versione Base
 #==========================================================
 
+# DB endpoint
+# http://localhost/login
+
 server:
   port: 5051
 

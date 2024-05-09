@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +50,7 @@ public class InsertArtTest {
 	
 	private String JsonData =  
 			"{\r\n"
-			+ "    \"codArt\": \"129Test\",\r\n"
+			+ "    \"codArt\": \"131Test\",\r\n"
 			+ "    \"descrizione\": \"Articolo Unit Test Inserimento\",\r\n"
 			+ "    \"um\": \"PZ\",\r\n"
 			+ "    \"codStat\": \"TESTART\",\r\n"
@@ -64,7 +65,7 @@ public class InsertArtTest {
 			+ "        }\r\n"
 			+ "    ],\r\n"
 			+ "    \"ingredienti\": {\r\n"
-			+ "		\"codArt\" : \"129Test\",\r\n"
+			+ "		\"codArt\" : \"131Test\",\r\n"
 			+ "		\"info\" : \"TEST INGREDIENTI\"\r\n"
 			+ "	},\r\n"
 			+ "    \"iva\": {\r\n"
@@ -84,11 +85,13 @@ public class InsertArtTest {
 				.content(JsonData)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated())
+				.andExpect(jsonPath("$.data").value(LocalDate.now().toString()))
+				.andExpect(jsonPath("$.message").value("Articolo persistito con successo!"))
 				.andDo(print());
 		
-		assertThat(articoliRepository.findByCodArt("129Test"))
+		assertThat(articoliRepository.findByCodArt("131Test"))
 			.extracting(Articoli::getDescrizione)
-			.isEqualTo("Articolo Unit Test Inserimento");
+			.isEqualTo("ARTICOLO UNIT TEST INSERIMENTO");
 	}
 	
 	@Test
@@ -101,13 +104,13 @@ public class InsertArtTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isNotAcceptable())
 				.andExpect(jsonPath("$.codice").value(406))
-				.andExpect(jsonPath("$.mex").value("Articolo 129Test presente in anagrafica! Impossibile utilizzare il metodo POST"))
+				.andExpect(jsonPath("$.mex").value("Articolo 131Test presente in anagrafica! Impossibile utilizzare il metodo POST"))
 				.andDo(print());
 	}
 	
 	String ErrJsonData =  
 					"{\r\n"
-					+ "    \"codArt\": \"129Test\",\r\n"
+					+ "    \"codArt\": \"131Test\",\r\n"
 					+ "    \"descrizione\": \"\",\r\n" //<-- Descrizione Assente
 					+ "    \"um\": \"PZ\",\r\n"
 					+ "    \"codStat\": \"TESTART\",\r\n"
@@ -122,7 +125,7 @@ public class InsertArtTest {
 					+ "        }\r\n"
 					+ "    ],\r\n"
 					+ "    \"ingredienti\": {\r\n"
-					+ "		\"codArt\" : \"129Test\",\r\n"
+					+ "		\"codArt\" : \"131Test\",\r\n"
 					+ "		\"info\" : \"TEST INGREDIENTI\"\r\n"
 					+ "	},\r\n"
 					+ "    \"iva\": {\r\n"
@@ -149,7 +152,7 @@ public class InsertArtTest {
 	
 	private String JsonDataMod =  
 			"{\r\n"
-			+ "    \"codArt\": \"129Test\",\r\n"
+			+ "    \"codArt\": \"131Test\",\r\n"
 			+ "    \"descrizione\": \"Articolo Unit Test Modifica\",\r\n"
 			+ "    \"um\": \"PZ\",\r\n"
 			+ "    \"codStat\": \"TESTART\",\r\n"
@@ -164,7 +167,7 @@ public class InsertArtTest {
 			+ "        }\r\n"
 			+ "    ],\r\n"
 			+ "    \"ingredienti\": {\r\n"
-			+ "		\"codArt\" : \"129Test\",\r\n"
+			+ "		\"codArt\" : \"131Test\",\r\n"
 			+ "		\"info\" : \"TEST INGREDIENTI\"\r\n"
 			+ "	},\r\n"
 			+ "    \"iva\": {\r\n"
@@ -184,22 +187,24 @@ public class InsertArtTest {
 				.content(JsonDataMod)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isCreated())
+				.andExpect(jsonPath("$.data").value(LocalDate.now().toString()))
+				.andExpect(jsonPath("$.message").value("Articolo modificato con successo!"))
 				.andDo(print());
 		
-		assertThat(articoliRepository.findByCodArt("129Test"))
+		assertThat(articoliRepository.findByCodArt("131Test"))
 			.extracting(Articoli::getDescrizione)
-			.isEqualTo("Articolo Unit Test Modifica");
+			.isEqualTo("ARTICOLO UNIT TEST MODIFICA");
 	}
 	
 	@Test
 	@Order(5)
 	public void testDelArticolo() throws Exception
 	{
-		mockMvc.perform(MockMvcRequestBuilders.delete("/api/articoli/elimina/129Test")
+		mockMvc.perform(MockMvcRequestBuilders.delete("/api/articoli/elimina/131Test")
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.codice").value("200 OK"))
-				.andExpect(jsonPath("$.mex").value("Eliminazione Articolo 129Test eseguita con successo"))
+				.andExpect(jsonPath("$.mex").value("Eliminazione Articolo 131Test eseguita con successo"))
 				.andDo(print());
 	}
 

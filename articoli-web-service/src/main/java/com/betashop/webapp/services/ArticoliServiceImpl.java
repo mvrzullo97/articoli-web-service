@@ -32,13 +32,10 @@ public class ArticoliServiceImpl implements ArticoliService {
 	@Override
 	public List<ArticoliDto> SelByDescrizione(String descr) {
 		
-		List<Articoli> articoli = articoliRepository.SelByDescrizioneLike(descr);
+		String filter = "%" + descr.toUpperCase() + "%";
 		
-		/*
-		articoli.forEach(e -> e.setIdStatoArt(e.getIdStatoArt().trim()));
-		articoli.forEach(e -> e.setUm(e.getUm().trim()));
-		articoli.forEach(e -> e.setDescrizione(e.getDescrizione().trim()));
-		*/
+		List<Articoli> articoli = articoliRepository.SelByDescrizioneLike(filter);
+		
 		List<ArticoliDto> retVal = articoli
 				.stream()
 				.map(s -> modelMapper.map(s, ArticoliDto.class))
@@ -88,6 +85,8 @@ public class ArticoliServiceImpl implements ArticoliService {
 	@Override
 	@Transactional
 	public void InsArticolo(Articoli a) {
+
+		a.setDescrizione(a.getDescrizione().toUpperCase());	
 		articoliRepository.save(a);
 	}
 
