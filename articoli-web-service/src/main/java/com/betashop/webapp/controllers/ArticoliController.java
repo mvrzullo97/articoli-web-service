@@ -4,16 +4,12 @@ import java.lang.ProcessHandle.Info;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.management.ObjectName;
-
-import org.aspectj.weaver.tools.Trace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -160,9 +156,18 @@ public class ArticoliController {
 	
 	@DeleteMapping(value = "/elimina/{codart}", produces = "application/json" )
 	public ResponseEntity<?> updateArt(@PathVariable("codart") String codArt)
-	throws NotFoundException {
+	throws NotFoundException, DuplicateException {
 		
 		logger.info("Eliminiamo l'articolo con codice " + codArt);
+		
+		if (codArt.equals("ArticoloDiTest1"))
+		{
+			String errMex = String.format("L'articolo con codice %s non può essere eliminato!" , codArt);
+			
+			logger.warn(errMex);
+			
+			throw new DuplicateException(errMex);
+		}
 
 		Articoli delArticolo = articoliService.SelByCodArt2(codArt);
 		
@@ -180,8 +185,9 @@ public class ArticoliController {
 		
 		responseNode.put("codice", HttpStatus.OK.toString());
 		System.out.println(HttpStatus.OK.toString());
-		responseNode.put("mex", "Eliminazione Articolo " + codArt + " eseguita con successo");
-		
+		//responseNode.put("mex", "Eliminazione Articolo con codice " + codArt + " eseguita con successo");
+		responseNode.put("mex", "Articolo eliminato correttamente!");
+
 		logger.info("Eliminazione articolo con codice " + codArt + " avvenuta con successo!");
 		
 		return new ResponseEntity<>(responseNode, new HttpHeaders(), HttpStatus.OK );

@@ -204,7 +204,7 @@ public class InsertArtTest {
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.codice").value("200 OK"))
-				.andExpect(jsonPath("$.mex").value("Eliminazione Articolo 131Test eseguita con successo"))
+				.andExpect(jsonPath("$.mex").value("Eliminazione Articolo con codice 131Test eseguita con successo"))
 				.andDo(print());
 	}
 
